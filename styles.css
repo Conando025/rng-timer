@@ -5,9 +5,18 @@
 }
 
 body {
-	background-color: #f6f6f6;
+	background-color: #333;
 	font-family: sans-serif;
-	color: #222;
+	color: #f6f6f6;
+}
+
+input {
+	background-color: #444;
+	color: #f6f6f6;
+}
+
+#highlight {
+	background-color: #f00;
 }
 
 #wrapper {
@@ -25,14 +34,14 @@ body {
 .options {
 	margin: 20px 0;
 	padding: 20px;
-	background-color: #fff;
-	box-shadow: 0 1px 3px 1px #ccc;
+	background-color: #333;
+	box-shadow: 0 1px 3px 1px #1c1c1c;
 }
 
 .genfive,
 .genfour {
 	width: 400px;
-	height: 350px;
+	height: 370px;
 }
 
 .genfive {
@@ -61,7 +70,7 @@ body {
 .start:hover,
 .update:hover {
 	background-color: #000;
-	box-shadow: 0 1px 3px 1px #ccc;
+	box-shadow: 0 1px 3px 1px #1c1c1c;
 	cursor: pointer;
 }
 .start {

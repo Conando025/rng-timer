@@ -68,11 +68,20 @@ class Timer {
     if (!this.isActive()) {
       this._stopPoint = Date.now() + this._totalTime;
       this._audioTimers = [];
+      this._visualTimers = [];
       if (countdownCheckbox.checked) {
         for (var i = 0; i < numSoundsInput.value; i++) {
           this._audioTimers.push(setTimeout(function () {
             audios[soundTypeDropdown.value].play();
           }, this._totalTime - i * soundsIntervalInput.value));
+          this._visualTimers.push(setTimeout(function () {
+            document.body.id = "highlight";
+            ;
+          }, this._totalTime - i * soundsIntervalInput.value));
+          this._visualTimers.push(setTimeout(function () {
+            document.body.id = "";
+            ;
+          }, this._totalTime - i * soundsIntervalInput.value + 5));
         }
       }
       this._intervalTimer = setInterval(this._tick.bind(this), TICK_MS);
@@ -85,6 +94,9 @@ class Timer {
     if (this.isActive()) {
       this._audioTimers.forEach(clearTimeout);
       this._audioTimers = [];
+      this._visualTimers.forEach(clearTimeout);
+      this._visualTimers = [];
+      document.body.id = "";
       clearInterval(this._intervalTimer);
       clearTimeout(this._stopTimer);
       this._intervalTimer = null;
