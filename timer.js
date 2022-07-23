@@ -46,6 +46,10 @@ function getFormattedTime (ms) {
 
 var noop = function () {};
 
+function set_background_id(id) {
+  window.requestAnimationFrame(()=>{document.body.id = id})
+}
+
 class Timer {
   constructor (opts) {
     this.onStart = opts.onStart || noop;
@@ -75,14 +79,8 @@ class Timer {
           this._audioTimers.push(setTimeout(function () {
             audios[soundTypeDropdown.value].play();
           }, this._totalTime - i * soundsIntervalInput.value));
-          this._visualTimers.push(setTimeout(function () {
-            document.body.id = "highlight";
-            ;
-          }, this._totalTime - i * soundsIntervalInput.value));
-          this._visualTimers.push(setTimeout(function () {
-            document.body.id = "";
-            ;
-          }, this._totalTime - i * soundsIntervalInput.value + flash_duration));
+          this._visualTimers.push(setTimeout(()=>{set_background_id("highlight")}, this._totalTime - i * soundsIntervalInput.value));
+          this._visualTimers.push(setTimeout(()=>{set_background_id("")}, this._totalTime - i * soundsIntervalInput.value + flash_duration));
         }
       }
       this._intervalTimer = setInterval(this._tick.bind(this), TICK_MS);
