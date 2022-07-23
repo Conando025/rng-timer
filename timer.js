@@ -4,6 +4,7 @@ var FPS = 59.8261;
 var TICK_MS = 10;
 var MINIMUM_TIME_MS = 14000;
 var ONE_MINUTE_MS = 60000;
+var flash_duration = 10;
 
 var gen5CalibrationInput = document.getElementById('gen-5-calibration-input');
 var gen5TargetSecondsInput = document.getElementById('gen-5-target-seconds-input');
@@ -81,11 +82,11 @@ class Timer {
           this._visualTimers.push(setTimeout(function () {
             document.body.id = "";
             ;
-          }, this._totalTime - i * soundsIntervalInput.value + 5));
+          }, this._totalTime - i * soundsIntervalInput.value + flash_duration));
         }
       }
       this._intervalTimer = setInterval(this._tick.bind(this), TICK_MS);
-      this._stopTimer = setTimeout(this.stop.bind(this), this._totalTime);
+      this._stopTimer = setTimeout(this.stop.bind(this), this._totalTime + flash_duration);
       this.onStart();
       this.onChange();
     }
@@ -186,7 +187,6 @@ var gen4Timer2 = new Timer({
 gen4Timer1.onChange();
 gen4TimeRemaining2.innerHTML = getFormattedTime(gen4Timer2.getTotalTime());
 
-// eslint-disable-next-line
 function toggleGen4Timers () {
   if (gen4Timer1.isActive() || gen4Timer2.isActive()) {
     gen4Timer1.stop();
@@ -227,7 +227,6 @@ function updateGen5TotalTime () {
   }
 }
 
-// eslint-disable-next-line
 function updateGen5Calibration () {
   var targetSec = +gen5TargetSecondsInput.value;
   var secondHit = +gen5SecondHitInput.value;
@@ -250,7 +249,6 @@ function calculateGen4Times () {
   return [firstTimeMs, secondTimeMs];
 }
 
-// eslint-disable-next-line
 function updateGen4Times () {
   var totalTimes = calculateGen4Times();
   gen4Timer1.setTotalTime(totalTimes[0]);
@@ -262,7 +260,6 @@ function updateGen4Times () {
   }
 }
 
-// eslint-disable-next-line
 function updateGen4Calibration () {
   var targetDelay = +gen4TargetDelayInput.value;
   var delayHit = +gen4DelayHitInput.value;
@@ -272,7 +269,6 @@ function updateGen4Calibration () {
   updateGen4Times();
 }
 
-// eslint-disable-next-line
 function updateCountdownOptions () {
   var isDisabled = !countdownCheckbox.checked;
   soundTypeDropdown.disabled = isDisabled;
