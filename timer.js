@@ -1,10 +1,9 @@
 'use strict';
 
-var FPS = 59.8261;
-var TICK_MS = 10;
-var MINIMUM_TIME_MS = 14000;
-var ONE_MINUTE_MS = 60000;
-var flash_duration = 10;
+const FPS = 59.8261;
+const TICK_MS = 10;
+const MINIMUM_TIME_MS = 14000;
+const ONE_MINUTE_MS = 60000;
 
 var gen5CalibrationInput = document.getElementById('gen-5-calibration-input');
 var gen5TargetSecondsInput = document.getElementById('gen-5-target-seconds-input');
@@ -24,9 +23,11 @@ var gen4TimeRemaining2 = document.getElementById('gen-4-time-remaining-2');
 var gen4MinutesBefore = document.getElementById('gen-4-minutes-before');
 
 var countdownCheckbox = document.getElementById('countdown-checkbox');
+var flashCheckbox = document.getElementById('flash-checkbox');
 var soundTypeDropdown = document.getElementById('sound-type-dropdown');
 var numSoundsInput = document.getElementById('num-sounds-input');
 var soundsIntervalInput = document.getElementById('sounds-interval-input');
+var flashDurationInput = document.getElementById('flash-duration-input');
 
 var audios = {
   tick: new Audio('tick.wav'),
@@ -74,17 +75,19 @@ class Timer {
       this._stopPoint = Date.now() + this._totalTime;
       this._audioTimers = [];
       this._visualTimers = [];
-      if (countdownCheckbox.checked) {
-        for (var i = 0; i < numSoundsInput.value; i++) {
+      for (var i = 0; i < numSoundsInput.value; i++) {
+        if (countdownCheckbox.checked) {
           this._audioTimers.push(setTimeout(function () {
-            audios[soundTypeDropdown.value].play();
+          audios[soundTypeDropdown.value].play();
           }, this._totalTime - i * soundsIntervalInput.value));
+        }
+        if (flashCheckbox.checked) {
           this._visualTimers.push(setTimeout(()=>{set_background_id("highlight")}, this._totalTime - i * soundsIntervalInput.value));
-          this._visualTimers.push(setTimeout(()=>{set_background_id("")}, this._totalTime - i * soundsIntervalInput.value + flash_duration));
+          this._visualTimers.push(setTimeout(()=>{set_background_id("")}, this._totalTime - i * soundsIntervalInput.value + flashDurationInput.value * 1));
         }
       }
       this._intervalTimer = setInterval(this._tick.bind(this), TICK_MS);
-      this._stopTimer = setTimeout(this.stop.bind(this), this._totalTime + flash_duration);
+      this._stopTimer = setTimeout(this.stop.bind(this), this._totalTime + flashDurationInput.value * 1);
       this.onStart();
       this.onChange();
     }
