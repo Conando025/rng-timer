@@ -28,6 +28,7 @@ var soundTypeDropdown = document.getElementById('sound-type-dropdown');
 var numSoundsInput = document.getElementById('num-sounds-input');
 var soundsIntervalInput = document.getElementById('sounds-interval-input');
 var flashDurationInput = document.getElementById('flash-duration-input');
+var smallOffsetInput = document.getElementById('small-offset-input');
 
 var audios = {
   tick: new Audio('tick.wav'),
@@ -243,7 +244,7 @@ function calculateGen4Times () {
   var calibratedDelay = +gen4CalibratedDelayInput.value;
   var calibratedSeconds = +gen4CalibratedSecondsInput.value;
   var secondTimeMs = toMs(targetDelay * 1000 - calibratedDelay * 1000) + calibratedSeconds * 1000;
-  var firstTimeMs = ((targetSec * 1000 - secondTimeMs) % ONE_MINUTE_MS + ONE_MINUTE_MS) % ONE_MINUTE_MS + 200;
+  var firstTimeMs = ((targetSec * 1000 - secondTimeMs) % ONE_MINUTE_MS + ONE_MINUTE_MS) % ONE_MINUTE_MS + smallOffsetInput.value * 1;
   if (firstTimeMs < MINIMUM_TIME_MS) {
     firstTimeMs += ONE_MINUTE_MS;
   }
